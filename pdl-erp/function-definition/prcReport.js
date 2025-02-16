@@ -7,7 +7,7 @@ async function downloadPrcReport() {
     // await page.pause();
 
     try {
-        await page.goto('https://pdlerpweb.pioneerdenim.com/RptCustoms/PRCReport');
+        await page.goto('https://pdlerp.pioneerdenim.com/RptCustoms/PRCReport');
         await page.getByRole('textbox', { name: 'Select LC Date' }).click();
         await page.getByRole('option', { name: 'Last Year' }).click();
         await page.locator('.dxrd-right-tabs').click();
@@ -30,5 +30,5 @@ async function downloadPrcReport() {
     }
 }
 
-downloadPrcReport();
 
+module.exports = { downloadPrcReport };
