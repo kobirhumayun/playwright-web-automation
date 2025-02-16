@@ -1,13 +1,13 @@
 const { chromium } = require('playwright');
 
-async function downloadPrcReport() {
+async function downloadPrcReport(url, fileName, fileType, downloadPath) {
     const browser = await chromium.launch({ headless: false }); // Set headless to false for visible browser
     const context = await browser.newContext();
     const page = await context.newPage();
     // await page.pause();
 
     try {
-        await page.goto('https://pdlerp.pioneerdenim.com/RptCustoms/PRCReport');
+        await page.goto(url);
         await page.getByRole('textbox', { name: 'Select LC Date' }).click();
         await page.getByRole('option', { name: 'Last Year' }).click();
         await page.locator('.dxrd-right-tabs').click();
@@ -17,11 +17,12 @@ async function downloadPrcReport() {
         await page.getByRole('button', { name: 'Submit' }).click();
         await page.getByRole('menuitem', { name: '' }).locator('div').nth(4).click();
         const downloadPromise = page.waitForEvent('download');
-        await page.getByText('XLSX', { exact: true }).click();
+        await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
-        await download.saveAs('PrcReport.xlsx');
+        const filePath = `${downloadPath}\\PrcReport.${fileType.toLowerCase()}`;
+        await download.saveAs(filePath);
 
-        console.log('XLSX saved successfully!');
+        console.log(`${fileType.toUpperCase()} saved successfully as PrcReport.${fileType.toLowerCase()}`);
 
     } catch (error) {
         console.error('Error during automation:', error);

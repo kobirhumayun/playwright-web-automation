@@ -1,3 +1,3 @@
-﻿const {downloadPrcReport}= require('../function-definition/prcReport.js');
+﻿const { downloadPrcReport } = require('../function-definition/prcReport.js');
 
-downloadPrcReport();
+downloadPrcReport('https://pdlerpweb.pioneerdenim.com/RptCustoms/PRCReport', 'PrcReport', 'xlsx', 'C:\\Users\\Humayun\\Downloads');
