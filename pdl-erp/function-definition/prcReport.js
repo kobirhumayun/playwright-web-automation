@@ -16,10 +16,11 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         await page.locator('.dxrd-right-tabs').click();
         await page.getByRole('button', { name: 'Submit' }).click();
         await page.getByRole('menuitem', { name: '' }).locator('div').nth(4).click();
-        const downloadPromise = page.waitForEvent('download');
+        const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
-        const filePath = `${downloadPath}\\PrcReport.${fileType.toLowerCase()}`;
+        const filePath = `${downloadPath}\\${fileName}.${fileType.toLowerCase()}`;
+
         await download.saveAs(filePath);
 
         console.log(`${fileType.toUpperCase()} saved successfully as PrcReport.${fileType.toLowerCase()}`);
@@ -27,6 +28,7 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
     } catch (error) {
         console.error('Error during automation:', error);
     } finally {
+        await context.close();
         await browser.close();
     }
 }
