@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const path = require('path');
 
 async function downloadPrcReport(url, fileName, fileType, downloadPath) {
     const browser = await chromium.launch({ headless: true }); // Set headless to false for visible browser
@@ -22,7 +23,7 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
-        const filePath = `${downloadPath}\\${fileName}.${fileType.toLowerCase()}`;
+        const filePath = path.join(downloadPath, `${fileName}.${fileType.toLowerCase()}`);
         
         await download.saveAs(filePath);
         
