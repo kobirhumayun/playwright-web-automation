@@ -1,3 +1,7 @@
 const { downloadFabricWisePIDetail } = require('../function-definition/fabricWisePIDetail.js');
+const os = require('os');
+const path = require('path');
 
-downloadFabricWisePIDetail('https://pdlerpweb.pioneerdenim.com/RptCustoms/FabricWisePIDetail', 'PIReport', 'xlsx', 'C:\\Users\\Humayun\\Downloads');
+const downloadPath = path.join(os.homedir(), 'Downloads');
+
+downloadFabricWisePIDetail('https://pdlerpweb.pioneerdenim.com/RptCustoms/FabricWisePIDetail', 'PIReport', 'xlsx', downloadPath);
