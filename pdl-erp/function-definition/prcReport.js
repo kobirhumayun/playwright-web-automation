@@ -1,12 +1,15 @@
 const { chromium } = require('playwright');
 
 async function downloadPrcReport(url, fileName, fileType, downloadPath) {
-    const browser = await chromium.launch({ headless: false }); // Set headless to false for visible browser
+    const browser = await chromium.launch({ headless: true }); // Set headless to false for visible browser
     const context = await browser.newContext();
     const page = await context.newPage();
     // await page.pause();
 
     try {
+
+        const startTime = new Date().getTime();
+        
         await page.goto(url);
         await page.getByRole('textbox', { name: 'Select LC Date' }).click();
         await page.getByRole('option', { name: 'Last Year' }).click();
@@ -20,10 +23,11 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
         const filePath = `${downloadPath}\\${fileName}.${fileType.toLowerCase()}`;
-
+        
         await download.saveAs(filePath);
-
-        console.log(`${fileType.toUpperCase()} saved successfully as PrcReport.${fileType.toLowerCase()}`);
+        
+        console.log(`${fileType.toUpperCase()} saved successfully as ${fileName}.${fileType.toLowerCase()}`);
+        console.log('Time taken:', (new Date().getTime() - startTime) / 1000, 'seconds');
 
     } catch (error) {
         console.error('Error during automation:', error);
