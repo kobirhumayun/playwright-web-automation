@@ -1,3 +1,6 @@
 ﻿const { downloadPrcReport } = require('../function-definition/prcReport.js');
+const os = require('os');
+const path = require('path');
 
-downloadPrcReport('https://pdlerpweb.pioneerdenim.com/RptCustoms/PRCReport', 'PrcReport', 'xlsx', 'C:\\Users\\Humayun\\Downloads');
+const downloadPath = path.join(os.homedir(), 'Downloads');
+downloadPrcReport('https://pdlerpweb.pioneerdenim.com/RptCustoms/PRCReport', 'PrcReport', 'xlsx', downloadPath);
