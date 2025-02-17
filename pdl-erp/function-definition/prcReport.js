@@ -19,7 +19,9 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         await page.locator('.dx-list-select-all > .dx-widget').click();
         await page.locator('.dxrd-right-tabs').click();
         await page.getByRole('button', { name: 'Submit' }).click();
-        await page.getByRole('menuitem', { name: '' }).locator('div').nth(4).click();
+        const menuItem = await page.getByRole('menuitem', { name: '' }).locator('div').nth(4);
+        await menuItem.waitFor({ state: 'visible' });
+        await menuItem.click();
         const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
