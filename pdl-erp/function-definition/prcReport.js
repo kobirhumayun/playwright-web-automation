@@ -5,6 +5,7 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
     const browser = await chromium.launch({ headless: true }); // Set headless to false for visible browser
     const context = await browser.newContext();
     const page = await context.newPage();
+    context.setDefaultTimeout(300000);
     // await page.pause();
 
     try {
@@ -20,9 +21,9 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         await page.locator('.dxrd-right-tabs').click();
         await page.getByRole('button', { name: 'Submit' }).click();
         const menuItem = await page.getByRole('menu', { name: 'Export To' });
-        await menuItem.waitFor({ state: 'visible', timeout: 300000 });
+        await menuItem.waitFor({ state: 'visible' });
         await menuItem.click();
-        const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
+        const downloadPromise = page.waitForEvent('download');
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
         const filePath = path.join(downloadPath, `${fileName}.${fileType.toLowerCase()}`);
