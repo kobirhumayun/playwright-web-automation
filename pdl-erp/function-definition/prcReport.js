@@ -19,14 +19,13 @@ async function downloadPrcReport(url, fileName, fileType, downloadPath) {
         await page.locator('.dx-list-select-all > .dx-widget').click();
         await page.locator('.dxrd-right-tabs').click();
         await page.getByRole('button', { name: 'Submit' }).click();
-        const menuItem = await page.getByRole('menuitem', { name: '' }).locator('div').nth(4);
+        const menuItem = await page.getByRole('menu', { name: 'Export To' });
         await menuItem.waitFor({ state: 'visible', timeout: 300000 });
         await menuItem.click();
         const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
         await page.getByText(fileType.toUpperCase(), { exact: true }).click();
         const download = await downloadPromise;
         const filePath = path.join(downloadPath, `${fileName}.${fileType.toLowerCase()}`);
-
         await download.saveAs(filePath);
 
         console.log(`${fileType.toUpperCase()} saved successfully as ${fileName}.${fileType.toLowerCase()}`);
