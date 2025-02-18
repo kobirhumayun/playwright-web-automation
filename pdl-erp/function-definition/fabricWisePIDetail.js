@@ -19,7 +19,7 @@ async function downloadFabricWisePIDetail(url, fileName, fileType, downloadPath)
         await page.getByRole('combobox', { name: 'PI From Date' }).fill('');
         await page.getByRole('combobox', { name: 'PI To Date' }).fill('');
         await page.getByRole('button', { name: 'Submit' }).click();
-        const menuItem = await page.getByRole('menuitem', { name: '' }).locator('div').nth(4);
+        const menuItem = await page.getByRole('menu', { name: 'Export To' });
         await menuItem.waitFor({ state: 'visible', timeout: 300000 });
         await menuItem.click();
         const downloadPromise = page.waitForEvent('download', { timeout: 300000 });
