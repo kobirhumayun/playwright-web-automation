@@ -4,4 +4,4 @@ const path = require('path');
 
 const downloadPath = path.join(os.homedir(), 'Downloads');
 
-downloadFabricWisePIDetail('https://pdlerpweb.pioneerdenim.com/RptCustoms/FabricWisePIDetail', 'PIReport', 'xlsx', downloadPath);
+downloadFabricWisePIDetail('https://pdlerp.pioneerdenim.com/RptCustoms/FabricWisePIDetail', 'PIReport', 'xlsx', downloadPath);
