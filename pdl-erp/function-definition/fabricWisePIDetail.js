@@ -17,8 +17,21 @@ async function downloadFabricWisePIDetail(url, fileName, fileType, downloadPath)
         await page.getByRole('combobox', { name: 'File To Date' }).fill('');
         await page.getByRole('combobox', { name: 'LC From Date' }).fill('');
         await page.getByRole('combobox', { name: 'LC To Date' }).fill('');
-        await page.getByRole('combobox', { name: 'PI From Date' }).fill('');
-        await page.getByRole('combobox', { name: 'PI To Date' }).fill('');
+        const today = new Date();
+        const oneYearBack = new Date();
+        oneYearBack.setFullYear(today.getFullYear() - 1);
+
+        const formatDate = (date) => {
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, '0');
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const month = months[d.getMonth()];
+            const year = d.getFullYear();
+            return `${day}-${month}-${year}`;
+        };
+
+        await page.getByRole('combobox', { name: 'PI From Date' }).fill(formatDate(oneYearBack));
+        await page.getByRole('combobox', { name: 'PI To Date' }).fill(formatDate(today));
         await page.getByRole('button', { name: 'Submit' }).click();
         const menuItem = await page.getByRole('menu', { name: 'Export To' });
         await menuItem.waitFor({ state: 'visible' });
